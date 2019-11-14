@@ -26,13 +26,67 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   String displayString = '0';
+  String numberString  = '0';
+  double result        = 0;
+  String operation;
+  bool shouldCalculate = false;
+
+  pressButton(String title) {
+    setState(() {
+      if(title =='+'|| title =='-'|| title =='*'|| title =='/') {
+        if(shouldCalculate) {
+          calculate();
+        }else {
+          result = double.parse(numberString) ?? 0;
+          shouldCalculate = true;
+        }        
+        numberString = '';
+        operation = title;
+      }else if(title == '=') {
+        calculate();
+        shouldCalculate = false;
+      }else if(title == 'AC') {
+        numberString = '';
+        displayString = '0';
+        result = 0;
+        shouldCalculate = false;
+      }else {
+        if(numberString == '0' || numberString == '0.0') {
+            numberString = '';
+        }
+        numberString += title;
+        displayString =numberString;
+      }
+    });
+  }
+
+  calculate() {
+    switch (operation) {
+      case '+':
+        result +=double.parse(numberString);
+        break;
+      case '-':
+        result -=double.parse(numberString);
+        break;
+      case '/':
+        result /=double.parse(numberString);
+        break;
+      case('*'):
+        result *=double.parse(numberString);
+        break;
+      default:
+        break;
+    }
+    numberString = result.toString();
+    displayString = numberString;
+  }
 
   Widget createButton(String title) {
     return Expanded(
           child: (
         ButtonTheme(    height: double.infinity,
                         child: OutlineButton(
-                          onPressed: null,
+                          onPressed: () => pressButton(title),
                           color:Colors.black12,
                           hoverColor: Colors.blue,                          
                           child:Text(title,
