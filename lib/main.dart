@@ -25,24 +25,34 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  String displayString = '0';
+
   Widget createButton(String title) {
-    return (
-      ButtonTheme(
-                      child: OutlineButton(
-                        onPressed: null,
-                        child:Text(title))
-                    )
+    return Expanded(
+          child: (
+        ButtonTheme(    height: double.infinity,
+                        child: OutlineButton(
+                          onPressed: null,
+                          color:Colors.black12,
+                          hoverColor: Colors.blue,                          
+                          child:Text(title,
+                                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white))
+                        )
+                      )
+      ),
     );
   }
 
   Widget createRow(String a, String b, String c, String d) {
-    return (
-      Row(children: <Widget>[
-                  createButton(a),
-                  createButton(b),
-                  createButton(c),
-                  createButton(d)
-        ])
+    return Expanded(
+          child: (
+        Row(children: <Widget>[
+                    createButton(a),
+                    createButton(b),
+                    createButton(c),
+                    createButton(d)
+          ])
+      ),
     );
   }
 
@@ -53,21 +63,32 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
+      body: Padding(
+        padding:EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
-            Container( //top part 
-              child: Text('0'
+            Expanded(
+              child: Container( //top part 
+                  child: Padding(
+                          padding:const EdgeInsets.all(2.0),
+                          child: Align(
+                            alignment: FractionalOffset.bottomRight,
+                            child: Text(displayString
+                            ),
+                          ),
+                 ),
               ),
             ),
-            Column( //buttons
-              children: <Widget>[
-                createRow('+','-','*','/'),
-                createRow('7','8','9','0'),
-                createRow('6','5','4','AC'),
-                createRow('1','2','3','='),
-              ]
-           )
+            Expanded(
+              child: Column( //buttons
+                children: <Widget>[
+                  createRow('+','-','*','/'),
+                  createRow('7','8','9','0'),
+                  createRow('6','5','4','AC'),
+                  createRow('1','2','3','='),
+                ]
+           ),
+            )
           ]
         ),
       )
